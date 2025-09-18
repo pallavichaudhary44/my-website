@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Questions</title>
+   <style>
+   .logo {
+      position: absolute;
+      top: 20px;       /* distance from top */
+      right: 20px;     /* distance from right */
+      width: 150px;     /* adjust size */
+      height: auto;
+    }
+    body {
+      background-image: url("question.png"); /* Replace with your image path */
+      background-size: cover;   /* Makes it cover the whole page */
+      background-repeat: no-repeat; /* Prevents tiling */
+      background-position: center;  /* Centers the image */
+      height: 100vh;  /* Ensures full viewport height */
+      margin: 0;
+    }
+    </style>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    let subject, level;
+    const content = {
+      "Maths": {
+        "Easy": { questions: ["What is 2+2?","What is 5-3?"], answers:["4","2"] },
+        "Medium": { questions: ["Solve x+3=5","What is 10/2?"], answers:["2","5"] },
+        "Hard": { questions: ["Differentiate x²","Integrate 2x"], answers:["2x","x^2 + C"] }
+      },
+      "Science": {
+        "Easy": { questions:["Plants make food by?","What gas do plants release?"], answers:["photosynthesis","oxygen"] },
+        "Medium": { questions:["What is the center of atom?","Name a subatomic particle?"], answers:["nucleus","electron"] },
+        "Hard": { questions:["Who gave relativity?","Formula of E=?"], answers:["einstein","mc^2"] }
+      },
+      "GK": {
+        "Easy": { questions:["Capital of India?","Prime Minister of India?"], answers:["new delhi","narendra modi"] },
+        "Medium": { questions:["States in India?","Capital of Rajasthan?"], answers:["28","jaipur"] },
+        "Hard": { questions:["Famous wonder in India?","India Gate in?"], answers:["taj mahal","new delhi"] }
+      },
+      "History": {
+        "Easy": { questions:["Religion of Lord Rama?","Name of religious book?"], answers:["hinduism","ramayana"] },
+        "Medium": { questions:["Who wrote Ramayana?","Name the wives of Dasharatha?"], answers:["valmiki","kaushalya,sumantra,kaikeyi"] },
+        "Hard": { questions:["Total religions in India?","Which country has all religions living together?"], answers:["many","india"] }
+      }
+    };
+
+    function loadQuestions(){
+      subject = localStorage.getItem("subject");
+      level = localStorage.getItem("level");
+      if(!subject||!level){ 
+        alert("No subject/level selected"); 
+        window.location.href='map1.html'; 
+        return; 
+      }
+      const data = content[subject][level];
+      document.getElementById("title").innerText = subject + " — " + level + " Questions";
+      document.getElementById("q1text").innerText = data.questions[0];
+      document.getElementById("q2text").innerText = data.questions[1];
+    }
+
+    function checkAnswers(e){
+      e.preventDefault();
+      const a1 = document.getElementById("a1").value.trim().toLowerCase();
+      const a2 = document.getElementById("a2").value.trim().toLowerCase();
+      const data = content[subject][level];
+      let score = 0;
+      if(a1 && a1.includes(data.answers[0].toLowerCase())) score++;
+      if(a2 && a2.includes(data.answers[1].toLowerCase())) score++;
+      localStorage.setItem("quizScore", score);
+      window.location.href = "game1.html";
+    }
+
+    window.onload = loadQuestions;
+  </script>
+</head>
+<body>
+   <img src="eduquest.png" alt="EduQuest Logo" class="logo">
+
+  <div class="container">
+    <h2 id="title">Questions</h2>
+    <form onsubmit="checkAnswers(event)">
+      <p id="q1text"></p>
+      <input type="text" id="a1" required>
+
+      <p id="q2text"></p>
+      <input type="text" id="a2" required>
+
+      <button type="submit">Submit Answers ➜</button>
+    </form>
+    <div style="margin-top:10px"><button onclick="window.location.href='reading1.html'">⬅ Back</button></div>
+  </div>
+</body>
+</html>

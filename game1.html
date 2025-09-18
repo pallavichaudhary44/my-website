@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Mini Game</title>
+   <style>
+   .logo {
+      position: absolute;
+      top: 20px;       /* distance from top */
+      right: 20px;     /* distance from right */
+      width: 150px;     /* adjust size */
+      height: auto;
+    }
+    body {
+      background-image: url("game.png"); /* Replace with your image path */
+      background-size: cover;   /* Makes it cover the whole page */
+      background-repeat: no-repeat; /* Prevents tiling */
+      background-position: center;  /* Centers the image */
+      height: 100vh;  /* Ensures full viewport height */
+      margin: 0;
+    }
+    </style>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    .game-frame { width:100%; height:420px; border-radius:10px; border:1px solid #eee; overflow:hidden; }
+    #gameArea { display:flex; justify-content:center; align-items:center; min-height:260px; }
+    #feedback { display:none; margin-top:12px; padding:12px; border-radius:8px; background:#f6ffef; color:#2a7f3e; border:1px solid #dff3de; }
+    .controls { margin-top:12px; display:flex; gap:10px; justify-content:center; }
+  </style>
+  <script>
+    let subject, level;
+    const gameMap = {
+      "Maths-Easy":"game-maths-easy.html",
+      "Maths-Medium":"game-maths-medium.html",
+      "Maths-Hard":"game-maths-hard.html",
+      "Science-Easy":"game-science-easy.html",
+      "Science-Medium":"game-science-medium.html",
+      "Science-Hard":"game_science-hard.html",
+      "GK-Easy":"game-gk-easy.html",
+      "GK-Medium":"game-gk-medium.html",
+      "GK-Hard":"game-gk-hard.html",
+      "History-Easy":"game-history-easy.html",
+      "History-Medium":"game-history-medium.html",
+      "History-Hard":"game-history-hard.html"
+    };
+
+    function loadGame() {
+      subject = localStorage.getItem('subject');
+      level = localStorage.getItem('level');
+      if(!subject || !level) {
+        alert('No subject/level selected. Redirecting to Home.');
+        window.location.href = 'map1.html';
+        return;
+      }
+      document.getElementById('gameTitle').textContent = `${subject} — ${level} Game`;
+      const key = `${subject}-${level}`;
+      const file = gameMap[key];
+      const gameArea = document.getElementById('gameArea');
+      if(file) {
+        gameArea.innerHTML = `<iframe id="gameIframe" class="game-frame" src="${file}" title="Game: ${subject} ${level}" ></iframe>`;
+      } else {
+        gameArea.innerHTML = `<div style="padding:20px;color:#666;">No game found for ${subject} - ${level}.</div>`;
+      }
+      window.addEventListener('message', handleMessage, false);
+    }
+
+    function handleMessage(event) {
+      const data = event.data;
+      if(!data || typeof data !== 'object') return;
+      if(data.type === 'gameResult') {
+        const score = Number(data.score) || 0;
+        saveGameScoreAndProceed(score);
+      }
+    }
+
+    function finishFallback() {
+      const stored = localStorage.getItem('gameScore');
+      const fallback = stored ? Number(stored) : Math.floor(Math.random() * 11);
+      saveGameScoreAndProceed(fallback);
+    }
+
+    function saveGameScoreAndProceed(score) {
+      const gameScore = Math.max(0, Math.min(10, Math.round(Number(score))));
+      localStorage.setItem('gameScore', String(gameScore));
+      document.getElementById('feedback').style.display = 'block';
+      document.getElementById('gameResult').textContent = `🎮 You scored ${gameScore} points in the game. Proceed to see rewards.`;
+      setTimeout(() => { window.location.href = 'reward1.html'; }, 1400);
+    }
+
+    function backToQuestions() {
+      window.location.href = 'question1.html';
+    }
+
+    window.addEventListener('load', loadGame);
+  </script>
+</head>
+<body>
+   <img src="eduquest.png" alt="EduQuest Logo" class="logo">
+
+  <div class="container" role="main">
+    <h2 id="gameTitle">Mini Game</h2>
+    <div id="gameArea" aria-live="polite"><p style="color:#666;">Loading game…</p></div>
+    <div id="feedback"><div id="gameResult">You scored X points.</div></div>
+    <div class="controls">
+      <button onclick="finishFallback()">Finish Game (Fallback)</button>
+      <button onclick="backToQuestions()">⬅ Back to Questions</button>
+    </div>
+  </div>
+</body>
+</html>

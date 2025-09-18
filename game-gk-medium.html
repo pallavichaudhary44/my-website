@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GK Medium Game</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    input { padding: 8px; font-size: 16px; }
+    button { margin-left: 5px; padding: 8px 12px; font-size: 16px; cursor: pointer; }
+  </style>
+  <script>
+    function check(){
+      let ans = document.getElementById("ans").value.trim();
+      if(ans === "28"){
+        alert("🎉 Correct! India has 28 states.");
+
+        // ✅ Send score back to parent game1.html
+        parent.postMessage({ type: 'gameResult', score: 10 }, '*');
+      } else {
+        alert("❌ Wrong, India has 28 states.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>🗺 State Counter</h2>
+    <p>How many states are in India?</p>
+    <input type="number" id="ans" placeholder="Enter number...">
+    <button onclick="check()">Check</button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Science Easy Game</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    button { margin: 5px; padding: 10px 15px; font-size: 16px; cursor: pointer; }
+    .info { margin-top: 12px; font-size: 15px; color: #444; }
+  </style>
+  <script>
+    let chosen = [];
+
+    function choose(item){
+      if(!chosen.includes(item)) chosen.push(item);
+
+      if(chosen.length === 3){
+        if(chosen.includes("sun") && chosen.includes("water") && chosen.includes("co2")){
+          alert("🌿 Correct! Photosynthesis needs Sunlight, Water, CO₂.");
+
+          // ✅ Send score to parent
+          parent.postMessage({ type: 'gameResult', score: 10 }, '*');
+        } else {
+          alert("❌ Wrong combination! Try again.");
+          chosen = []; // reset
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>🌿 Photosynthesis Builder</h2>
+    <p>Select 3 things plants need:</p>
+    <button onclick="choose('sun')">☀ Sunlight</button>
+    <button onclick="choose('milk')">🥛 Milk</button>
+    <button onclick="choose('water')">💧 Water</button>
+    <button onclick="choose('co2')">💨 CO₂</button>
+
+    <div class="info">Tip: Think about what plants use to make food 🌱</div>
+  </div>
+</body>
+</html>

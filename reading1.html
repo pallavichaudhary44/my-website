@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Reading Task</title>
+  <link rel="stylesheet" href="style.css">
+   <style>
+    .logo {
+      position: absolute;
+      top: 20px;       /* distance from top */
+      right: 20px;     /* distance from right */
+      width: 150px;     /* adjust size */
+      height: auto;
+    }
+   body {
+      background-image: url("reading.png"); /* Replace with your image path */
+      background-size: cover;   /* Makes it cover the whole page */
+      background-repeat: no-repeat; /* Prevents tiling */
+      background-position: center;  /* Centers the image */
+      height: 100vh;  /* Ensures full viewport height */
+      margin: 0;
+    }
+    </style>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>
+    let subject, level;
+    let timeLeft = 120;
+    let timer;
+
+    const content = {
+      "Maths": {
+        "Easy": { paragraph:"Easy math, particularly with numbers and addition, is the foundation of all mathematical understanding. It's the starting point for developing crucial skills like counting, grouping, and simple calculation. When we first learn to add, we're essentially just combining sets of objects—like adding two apples to three apples to get a total of five. This process, known as cardinality, helps us understand that a number represents a specific quantity of things.  Learning addition isn't just about memorizing facts; it's about building a mental model of how numbers interact" },
+        "Medium": { paragraph:"Simple algebra is like a fun detective game with numbers! 🕵‍♀ Instead of knowing all the numbers, you have to find a missing number, which we call a variable. We often use a letter like x to be the secret number we need to find. It's all about figuring out the puzzle by keeping everything fair and equal on both sides of the equals sign." },
+        "Hard": { paragraph:"calculus can tell you your exact speed at one specific moment, no matter how fast you're changing. It's like having a super-powered magnifying glass for change!  It also helps us find the area of weird, curvy shapes that don't have straight sides, like a puddle on the ground. Calculus helps us figure out the 'story' behind motion, growth, and all sorts of changing things in the world, one tiny piece at a time. It’s all about breaking big, complex problems into super-small, manageable parts to find the answers! 🚀" }
+      },
+      "Science": {
+        "Easy": { paragraph:"Easy science about plants is all about how they eat and breathe. 🌿 Plants are incredible because they are like tiny factories that can make their own food! This special process is called photosynthesis. It's how plants use sunlight, water, and a gas called carbon dioxide to create their food, which is a type of sugar." },
+        "Medium": { paragraph:"Medium science about atoms and molecules gets a little more detailed, like a puzzle with tiny, invisible pieces. ⚛ Everything around us—from the air we breathe to the chair you're sitting on—is made up of atoms, which are the smallest units of matter. At the very center of an atom is a dense core called the nucleus, which holds positively charged protons and neutral neutrons. Flying around the nucleus in a cloud are tiny, negatively charged particles called electrons. When two or more atoms join together, they form a molecule. For example, a water molecule is made of two hydrogen atoms and one oxygen atom stuck together. So, an atom is the basic building block, and molecules are the structures they create when they bond." },
+        "Hard": { paragraph:"Albert Einstein gave the theory of relativity, which completely changed the way we understand space, time, and energy. One of the most famous results of his theory is the equation E = mc², which shows that energy (E) and mass (m) are related, with the speed of light (c) acting as the constant. This means that even a small amount of mass can be converted into a very large amount of energy." }
+      },
+      "GK": {
+        "Easy": { paragraph:"Easy general knowledge is about the basic facts that help us understand the world around us. 🌍 A great place to start is with countries, their capitals, and their leaders. The capital is the most important city in a country, often where the government is located. For example, the capital of India is New Delhi, a major center for politics and culture. The leader, like the Prime Minister, is the person in charge of running the government and making decisions for the country. Knowing these key details helps us get a basic sense of a country's identity and its role in the world." },
+        "Medium": { paragraph:"Medium GK tests a deeper knowledge of a country's geography and administrative structure. 🗺 While easy GK focuses on the nation's capital, medium GK asks you to navigate the country's internal divisions: its states and their capitals. India, a vast and diverse nation, is organized into multiple states, each with its own unique culture, language, and capital city. Knowing these facts is key to understanding the regional diversity and political landscape of a large country. For example, knowing that Jaipur is the capital of Rajasthan connects you to the history of its magnificent palaces and forts, rather than just the national government." },
+        "Hard": { paragraph:"Welcome to the ultimate test of your historical knowledge! 🗺 This isn't just about identifying buildings; it's about uncovering the stories and legacies etched into stone. These monuments are more than just landmarks—they are silent witnesses to a nation's defining moments. For instance, in India, one stands as a breathtaking tribute to love so profound it moved an emperor to build a wonder of the world. Another, a striking archway in a bustling capital, is not just a gate but a solemn memorial to the bravery of soldiers who gave everything for their country. Knowing these places is like holding a key to the past, unlocking the secrets of a nation's soul." }
+      },
+      "History": {
+        "Easy": { paragraph:"Easy history is about learning the great stories and heroes that have shaped our culture. 📜 Epics are long, epic poems that tell tales of brave heroes, gods, and important events. In Indian history, two of the most famous epics are the Ramayana and the Mahabharata. These stories are not just exciting adventures; they also teach important lessons about duty, honor, and courage. The Ramayana, for instance, tells the story of Lord Rama, a revered figure in Hinduism, and his journey to rescue his wife, Sita. These epics are a fundamental part of a nation's identity and religious heritage." },
+        "Medium": { paragraph:"Imagine a story so ancient, its words were first passed down not from a book, but from the memory of a great, wise sage. 📜 This grand epic tells the tale of a righteous prince's journey, but what's truly fascinating is the story behind the story. The very person who is credited with composing and writing this religious text was not just a storyteller, but a character who witnessed parts of the events himself! He wove the narrative of Lord Rama’s life into a beautiful scripture, making it a timeless tale that has been retold for thousands of years." },
+        "Hard": { paragraph:"Stepping into hard history isn't about memorizing dates; it's about understanding the complex interplay of cultures, events, and their lasting legacies. 📜 These are the moments that truly defined civilizations, from the rise and fall of empires to the cultural exchanges that blended traditions. To grasp this level of history, you must go beyond the 'what' and ask the 'why.' You might examine how the ancient Silk Road didn't just move goods but also ideas, religions, and diseases, completely reshaping societies across continents.  Or, you could analyze how the fall of the Mughal Empire influenced modern Indian politics and art. These questions require you to connect different threads of history and see how they weave together to create the intricate tapestry of our world today." }
+      }
+    };
+
+    function startTimer() {
+      document.getElementById('timer').textContent = "⏳ 2:00";
+      timeLeft = 120;
+      timer = setInterval(() => {
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          document.getElementById('timer').textContent = "⏰ Time’s up!";
+          // Auto proceed to questions
+          setTimeout(() => window.location.href = "question1.html", 900);
+          return;
+        }
+        const mm = Math.floor(timeLeft/60), ss = timeLeft % 60;
+        document.getElementById('timer').textContent = `⏳ ${mm}:${ss < 10 ? '0' : ''}${ss}`;
+        timeLeft--;
+      }, 1000);
+    }
+
+    function loadReading() {
+      subject = localStorage.getItem("subject");
+      level = localStorage.getItem("level");
+      if (!subject || !level) {
+        alert("No subject/level selected. Redirecting to Home.");
+        window.location.href = "map1.html";
+        return;
+      }
+      document.getElementById('title').textContent = `${subject} — ${level}`;
+      const data = (content[subject] && content[subject][level]) ? content[subject][level] : null;
+      document.getElementById('paragraph').textContent = data ? data.paragraph : "Content not available.";
+      startTimer();
+    }
+
+    function proceedToQuestions() {
+      clearInterval(timer);
+      window.location.href = "question1.html";
+    }
+
+    function goBackToLevels() {
+      clearInterval(timer);
+      window.location.href = "levels1.html";
+    }
+
+    window.addEventListener('load', loadReading);
+  </script>
+</head>
+<body>
+   <img src="eduquest.png" alt="EduQuest Logo" class="logo">
+
+  <div class="container" role="main">
+    <h2 id="title">Reading Task</h2>
+
+    <div id="timer" style="font-weight:700; margin-bottom:12px;">⏳ 2:00</div>
+
+    <div id="paragraphBox" aria-live="polite">
+      <p id="paragraph">Loading paragraph…</p>
+    </div>
+
+    <div style="margin:12px 0; display:flex; justify-content:space-between;">
+      <button onclick="goBackToLevels()">⬅ Back</button>
+      <button onclick="proceedToQuestions()">Proceed to Questions ➜</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+  .logo {
+      position: absolute;
+      top: 20px;       /* distance from top */
+      right: 20px;     /* distance from right */
+      width: 150px;     /* adjust size */
+      height: auto;
+    }
+    body {
+      background-image: url("login.png"); /* Replace with your image path */
+      background-size: cover;   /* Makes it cover the whole page */
+      background-repeat: no-repeat; /* Prevents tiling */
+      background-position: center;  /* Centers the image */
+      height: 100vh;  /* Ensures full viewport height */
+      margin: 0;
+    }
+    </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <img src="eduquest.png" alt="EduQuest Logo" class="logo">
+
+  <div class="container">
+    <h2>Login</h2>
+    <form onsubmit="doLogin(event)">
+      <input type="text" id="loginid" placeholder="Enter ID" required>
+      <input type="password" id="loginpass" placeholder="Enter Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <div style="margin-top:12px">
+      <p>Not signed in?</p>
+      <button onclick="window.location.href='index.html'" class="small-btn">signup</button>
+    </div>
+  </div>
+
+  <script>
+    function doLogin(e){
+      e.preventDefault();
+      const id = document.getElementById("loginid").value.trim();
+      const pw = document.getElementById("loginpass").value;
+      const storedId = localStorage.getItem("userid");
+      const storedPw = localStorage.getItem("password");
+      if (id === storedId && pw === storedPw) {
+        // save "current user" so dashboard can show Hi, user
+        localStorage.setItem("currentUser", id);
+        // go to dashboard
+        window.location.href = "dashboard1.html";
+      } else {
+        alert("Invalid ID or Password");
+      }
+    }
+  </script>
+</body>
+</html>

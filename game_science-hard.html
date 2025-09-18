@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Science Hard Game</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    input { padding: 8px; font-size: 16px; }
+    button { margin-left: 5px; padding: 8px 12px; font-size: 16px; cursor: pointer; }
+  </style>
+  <script>
+    function check(){
+      let ans = document.getElementById("ans").value.trim().toLowerCase();
+      if(ans === "einstein"){
+        alert("🎉 Correct! Relativity was proposed by Einstein.");
+
+        // ✅ Send score back to parent game portal
+        parent.postMessage({ type: 'gameResult', score: 10 }, '*');
+      } else {
+        alert("❌ Wrong! Try 'Einstein'.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>🚀 Relativity Challenge</h2>
+    <p>Who proposed the Theory of Relativity?</p>
+    <input type="text" id="ans" placeholder="Enter scientist's name...">
+    <button onclick="check()">Submit</button>
+  </div>
+</body>
+</html>

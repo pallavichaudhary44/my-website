@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>History Easy Game</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function check(){
+      let ans = document.getElementById("ans").value.trim().toLowerCase();
+      if(ans==="hinduism"){
+        alert("🎉 Correct! Lord Rama belongs to Hinduism.");
+        window.location.href="levels1.html";
+      } else alert("❌ Wrong, try 'Hinduism'.");
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>📜 Ramayana Quiz</h2>
+    <p>Which religion is Lord Rama worshipped in?</p>
+    <input type="text" id="ans">
+    <button onclick="check()">Check</button>
+  </div>
+</body>
+</html>
+<script>
+  let score = 0;
+
+  function finishGame() {
+    // Example: player got 7 points
+    score = 7;
+
+    // Send score back to parent (game1.html)
+    parent.postMessage({ type: 'gameResult', score: score }, '*');
+  }
+</script>
+
+<button onclick="finishGame()">Finish Game</button>

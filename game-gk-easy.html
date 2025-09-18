@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GK Easy Game</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    input { padding: 8px; font-size: 16px; }
+    button { margin-left: 5px; padding: 8px 12px; font-size: 16px; cursor: pointer; }
+  </style>
+  <script>
+    function check(){
+      let ans = document.getElementById("ans").value.trim().toLowerCase();
+      if(ans === "new delhi"){
+        alert("🎉 Correct! Capital of India is New Delhi.");
+
+        // ✅ Send score to parent game portal
+        parent.postMessage({ type: 'gameResult', score: 10 }, '*');
+      } else {
+        alert("❌ Wrong, try again.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>🌍 Capital Finder</h2>
+    <p>What is the capital of India?</p>
+    <input type="text" id="ans" placeholder="Enter your answer...">
+    <button onclick="check()">Check</button>
+  </div>
+</body>
+</html>

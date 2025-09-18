@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Subject</title>
+   <style>
+   .logo {
+      position: absolute;
+      top: 20px;       /* distance from top */
+      right: 20px;     /* distance from right */
+      width: 150px;     /* adjust size */
+      height: auto;
+    }
+   body {
+      background-image: url("home.png"); /* Replace with your image path */
+      background-size: cover;   /* Makes it cover the whole page */
+      background-repeat: no-repeat; /* Prevents tiling */
+      background-position: center;  /* Centers the image */
+      height: 100vh;  /* Ensures full viewport height */
+      margin: 0;
+    }
+    </style>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function selectSubject(subject){
+      localStorage.setItem("subject", subject);
+      // clear previous level/quiz/game results for safety
+      localStorage.removeItem("level");
+      localStorage.removeItem("quizScore");
+      localStorage.removeItem("gameScore");
+      window.location.href = "levels1.html";
+    }
+  </script>
+</head>
+<body>
+   <img src="eduquest.png" alt="EduQuest Logo" class="logo">
+
+  <div class="container">
+    <h2>Select a Subject</h2>
+    <button onclick="selectSubject('Maths')">📐 Maths</button><br><br>
+    <button onclick="selectSubject('GK')">🌍 General Knowledge</button><br><br>
+    <button onclick="selectSubject('Science')">🔬 Science</button><br><br>
+    <button onclick="selectSubject('History')">📜 History</button><br><br>
+    <button onclick="window.location.href='dashboard1.html'">⬅ Back</button>
+  </div>
+</body>
+</html>

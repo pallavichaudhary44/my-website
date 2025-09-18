@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GK Hard Game</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function check(){
+      let ans = document.getElementById("ans").value.trim().toLowerCase();
+      if(ans==="taj mahal"){
+        alert("🎉 Correct! Taj Mahal is a Wonder of the World.");
+        
+        // ✅ Send score back to parent game1.html
+        parent.postMessage({ type: 'gameResult', score: 10 }, '*');
+      } else alert("❌ Wrong! Try again.");
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>🏛 Monument Guess</h2>
+    <p>Which famous wonder of the world is in India?</p>
+    <input type="text" id="ans">
+    <button onclick="check()">Submit</button>
+  </div>
+</body>
+</html>

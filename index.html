@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup</title>
+  <style>
+    .logo {
+      position: absolute;
+      top: 20px;       /* distance from top */
+      right: 20px;     /* distance from right */
+      width: 150px;     /* adjust size */
+      height: auto;
+    }
+    body {
+      background-image: url("index.png"); /* Replace with your image path */
+      background-size: cover;   /* Makes it cover the whole page */
+      background-repeat: no-repeat; /* Prevents tiling */
+      background-position: center;  /* Centers the image */
+      height: 100vh;  /* Ensures full viewport height */
+      margin: 0;
+    }
+    .center-text {
+      text-align: center;
+    }
+     .center-text h1 {
+      font-size: 64px;      /* big size */
+      margin: 0;
+      color: #222;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    .center-text h3 {
+      font-size: 48px;      /* smaller than h1 */
+      margin-top: 10px;
+      color: #070505;
+      font-weight: normal;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    .container {
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      width: 320px;
+      margin:  30px 0 50px 0;
+      text-align: center;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <img src="eduquest.png" alt="EduQuest Logo" class="logo">
+    <div class="center-text">
+        <h1>EduQuest</h1>
+        <h3>welcoming you here!</h3>
+    </div>
+  <div class="container">
+    <h2>Signup</h2>
+    <form onsubmit="saveSignup(event)">
+      <input type="text" id="userid" placeholder="Enter ID (username)" required>
+      <input type="password" id="password" placeholder="Enter Password" required>
+      <button type="submit">Signup</button>
+    </form>
+
+    <p style="margin-top:12px;">
+      Already registered?
+      <button type="button" onclick="window.location.href='login1.html'" class="small-btn">Login</button>
+    </p>
+  </div>
+
+  <script>
+    function saveSignup(e) {
+      e.preventDefault();
+      const id = document.getElementById("userid").value.trim();
+      const pw = document.getElementById("password").value;
+      if(!id || !pw){ alert("Enter ID and Password"); return; }
+      localStorage.setItem("userid", id);
+      localStorage.setItem("password", pw);
+      // mark that avatar selection is pending for this new account
+      localStorage.setItem("needsAvatar", "true");
+      alert("Signup successful! Please choose an avatar.");
+      window.location.href = "avatar1.html";
+    }
+  </script>
+</body>
+</html>

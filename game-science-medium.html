@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Science Medium Game</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    input { padding: 8px; font-size: 16px; }
+    button { margin-left: 5px; padding: 8px 12px; font-size: 16px; cursor: pointer; }
+  </style>
+  <script>
+    function check(){
+      let ans = document.getElementById("ans").value.trim().toLowerCase();
+      if(ans === "nucleus"){
+        alert("⚛ Correct! The center is the nucleus.");
+
+        // ✅ Send score to parent (dashboard/game1)
+        parent.postMessage({ type: 'gameResult', score: 10 }, '*');
+      } else {
+        alert("❌ Wrong! Try again.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>⚛ Atom Puzzle</h2>
+    <p>What is at the center of an atom?</p>
+    <input type="text" id="ans" placeholder="Your answer...">
+    <button onclick="check()">Check</button>
+  </div>
+</body>
+</html>

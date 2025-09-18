@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maths Medium Game</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    input { padding: 6px; font-size: 16px; margin-top: 8px; }
+    button { margin-top: 10px; }
+    .info { margin-top: 12px; font-size: 15px; color: #555; }
+  </style>
+  <script>
+    function checkX(){
+      let x = document.getElementById("x").value.trim();
+      if(x === "2"){
+        alert("🎉 Correct! x = 2");
+
+        // ✅ Send score back to parent (game1.html)
+        parent.postMessage({ type: 'gameResult', score: 10 }, '*');
+      } else {
+        alert("❌ Try again!");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>🕵 Solve for x</h2>
+    <p>Solve the equation: x + 3 = 5</p>
+    <input type="number" id="x" placeholder="Enter value of x">
+    <button onclick="checkX()">Check</button>
+    <div class="info">✅ Hint: Subtract 3 from both sides.</div>
+  </div>
+</body>
+</html>

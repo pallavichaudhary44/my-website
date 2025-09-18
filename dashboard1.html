@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <style>
+    .logo {
+      position: absolute;
+      top: 20px;       /* distance from top */
+      right: 20px;     /* distance from right */
+      width: 150px;     /* adjust size */
+      height: auto;
+    }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+       background-image: url("dashboard.png"); /* Replace with your image path */
+      background-size: cover;   /* Makes it cover the whole page */
+      background-repeat: no-repeat; /* Prevents tiling */
+      background-position: center;  /* Centers the image */
+      height: 100vh;  /* Ensures full viewport height */
+      margin: 0;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-style: Bold;
+      font-size: larger;
+      color: white;
+      padding: 20px 30px;
+    }
+
+    .dashboard-header .hi-user {
+      font-size: 32px;
+      
+    }
+
+    .menu-box {
+      position: relative;
+    }
+    .icon-btn {
+      background: transparent;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: white;
+    }
+
+    /* Profile side portal */
+    .profile-portal {
+      position: fixed;
+      top: 0;
+      left: -400px;
+      width: 340px;
+      height: 100%;
+      background: white;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      transition: 0.3s ease;
+      overflow-y: auto;
+      z-index: 999;
+    }
+    .profile-portal.active {
+      left: 0;
+    }
+    .profile-portal h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      color: #333;
+    }
+    .profile-field {
+      margin-bottom: 12px;
+    }
+    .profile-field label {
+      font-size: 14px;
+      color: #555;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .profile-field input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .save-btn {
+      display: block;
+      width: 100%;
+      background: #4a6cf7;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    /* Dashboard body */
+    .dashboard-main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+      padding-bottom: 80px; /* space for logout button */
+    }
+
+    .home-btn {
+      background: #4a6cf7;
+      color: white;
+      font-size: 20px;
+      font-weight: 600;
+      border: none;
+      padding: 18px 36px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Vertical subject buttons */
+    .subject-buttons-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 220px;
+      margin: 20px auto 40px auto;
+    }
+
+    .subject-btn {
+      background: #4a6cf7;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: background 0.3s ease;
+      text-align: center;
+    }
+
+    .subject-btn:hover {
+      background: #3a54d1;
+    }
+
+    .scorecard {
+      background: white;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      width: 90%;
+      max-width: 800px;
+    }
+    .scorecard h3 {
+      margin-top: 0;
+      color: #444;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table th,
+    .table td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    /* Logout button fixed bottom right */
+    .logout-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s ease;
+      z-index: 1000;
+    }
+    .logout-btn:hover {
+      background: #d32f2f;
+    }
+  </style>
+</head>
+<body onload="loadProfile()">
+   <img src="eduquest.png" alt="EduQuest Logo" class="logo">
+
+  <!-- HEADER -->
+  <div class="dashboard-header">
+    <div>
+      <div class="hi-user" id="greeting">Hi, Guest</div>
+      <div id="smallId" style="font-size:13px;opacity:0.8;"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="menu-box">
+        <button class="icon-btn" onclick="toggleProfile()">⋮</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE PORTAL -->
+  <div id="profilePortal" class="profile-portal">
+    <h2>Profile Details</h2>
+    <div class="profile-field">
+      <label>Name</label>
+      <input type="text" id="nameInput" />
+    </div>
+    <div class="profile-field">
+      <label>Gender</label>
+      <input type="text" id="genderInput" />
+    </div>
+    <div class="profile-field">
+      <label>Email</label>
+      <input type="email" id="emailInput" />
+    </div>
+    <div class="profile-field">
+      <label>Phone</label>
+      <input type="tel" id="phoneInput" />
+    </div>
+    <div class="profile-field">
+      <label>DOB</label>
+      <input type="date" id="dobInput" />
+    </div>
+    <button class="save-btn" onclick="saveProfile()">Save Profile</button>
+  </div>
+
+  <!-- MAIN -->
+  <div class="dashboard-main">
+    <button class="home-btn" onclick="goHome()">🏠 Home (Play)</button>
+
+    <!-- Fixed vertical subject buttons -->
+    <div class="subject-buttons-vertical">
+      <button class="subject-btn" onclick="renderScorecardForSubject('Maths')">Maths</button>
+      <button class="subject-btn" onclick="renderScorecardForSubject('Science')">Science</button>
+      <button class="subject-btn" onclick="renderScorecardForSubject('General Knowledge')">General Knowledge</button>
+      <button class="subject-btn" onclick="renderScorecardForSubject('History')">History</button>
+    </div>
+
+    <!-- Scorecard container -->
+    <div id="scorecards"></div>
+  </div>
+
+  <!-- Logout button -->
+  <button class="logout-btn" onclick="logout()">Logout</button>
+
+  <script>
+    function loadProfile() {
+      const user =
+        localStorage.getItem("currentUser  ") ||
+        localStorage.getItem("userid") ||
+        "Guest";
+      document.getElementById("greeting").innerText = "Hi, " + user;
+      document.getElementById("smallId").innerText =
+        ":User   " + (localStorage.getItem("userid") || "Guest");
+
+      // profile data
+      document.getElementById("nameInput").value = localStorage.getItem("name") || "";
+      document.getElementById("genderInput").value = localStorage.getItem("gender") || "";
+      document.getElementById("emailInput").value = localStorage.getItem("email") || "";
+      document.getElementById("phoneInput").value = localStorage.getItem("phone") || "";
+      document.getElementById("dobInput").value = localStorage.getItem("dob") || "";
+
+      clearScorecards();
+    }
+
+    function toggleProfile() {
+      const portal = document.getElementById("profilePortal");
+      portal.classList.toggle("active");
+    }
+
+    function saveProfile() {
+      localStorage.setItem("name", document.getElementById("nameInput").value);
+      localStorage.setItem("gender", document.getElementById("genderInput").value);
+      localStorage.setItem("email", document.getElementById("emailInput").value);
+      localStorage.setItem("phone", document.getElementById("phoneInput").value);
+      localStorage.setItem("dob", document.getElementById("dobInput").value);
+
+      localStorage.setItem(
+        "currentUser  ",
+        document.getElementById("nameInput").value || "Guest"
+      );
+      loadProfile();
+      alert("Profile saved successfully!");
+    }
+
+    function goHome() {
+      window.location.href = "map1.html";
+    }
+
+    function clearScorecards() {
+      document.getElementById("scorecards").innerHTML = "";
+    }
+
+    function renderScorecardForSubject(subject) {
+      const attempts = JSON.parse(localStorage.getItem("attempts")) || [];
+      const filtered = attempts.filter(
+        (a) => (a.subject || "").toLowerCase() === subject.toLowerCase()
+      );
+      const container = document.getElementById("scorecards");
+      container.innerHTML = "";
+
+      if (!filtered.length) {
+        container.innerHTML = `<p style='text-align:center;color:#666;'>No attempts for ${subject} yet.</p>`;
+        return;
+      }
+
+      let html = `<div class="scorecard"><h3>${subject} 📚</h3>
+        <table class="table"><thead>
+          <tr><th>#</th><th>Level</th><th>Quiz</th><th>Game</th><th>Total</th></tr>
+        </thead><tbody>`;
+
+      filtered.forEach((row, i) => {
+        html += `<tr>
+          <td>${i + 1}</td>
+          <td>${row.level || "-"}</td>
+          <td>${row.quiz || 0}/2</td>
+          <td>${row.game || 0}/10</td>
+          <td><b>${row.total || row.score || 0}</b></td>
+        </tr>`;
+      });
+
+      html += "</tbody></table></div>";
+      container.innerHTML = html;
+    }
+
+    function logout() {
+      window.location.href = "login1.html";
+    }
+  </script>
+</body>
+</html>

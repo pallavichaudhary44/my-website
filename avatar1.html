@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Avatar</title>
+    <style>
+       .logo {
+      position: absolute;
+      top: 20px;       /* distance from top */
+      right: 20px;     /* distance from right */
+      width: 150px;     /* adjust size */
+      height: auto;
+    }
+    body {
+      background-image: url("avatar.png"); /* Replace with your image path */
+      background-size: cover;   /* Makes it cover the whole page */
+      background-repeat: no-repeat; /* Prevents tiling */
+      background-position: center;  /* Centers the image */
+      height: 100vh;  /* Ensures full viewport height */
+      margin: 0;
+    }
+    </style>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function init() {
+      const needs = localStorage.getItem("needsAvatar");
+      if (!needs || needs !== "true") {
+        // avatar selection allowed only immediately after signup
+        alert("Avatar selection is only available just after signup. Redirecting to login.");
+        window.location.href = "login1.html";
+      }
+    }
+    function selectAvatar(v){
+      localStorage.setItem("avatar", v);
+      // clear the flag so avatar page is not forced again
+      localStorage.removeItem("needsAvatar");
+      alert("Avatar selected. Please login.");
+      window.location.href = "login1.html";
+    }
+  </script>
+</head>
+<body onload="init()">
+   <img src="eduquest.png" alt="EduQuest Logo" class="logo">
+  <div class="container">
+    <h2>Select Character</h2>
+    <div class="avatar-row">
+      <div class="avatar-btn" onclick="selectAvatar('boy')">🧑<div style="font-size:24px;margin-left:8px">He</div></div>
+      <div class="avatar-btn" onclick="selectAvatar('Angel')">👼<div style="font-size:24px;margin-left:8px">She</div></div>
+      <div class="avatar-btn" onclick="selectAvatar('Other')">🙂<div style="font-size:24px;margin-left:8px">Other</div></div>
+    </div>
+    <div style="margin-top: 15px"><button onclick="window.locatio.href='login1.html'">Complete Signup</button></div>
+    <div style="margin-top:14px"><button onclick="window.location.href='z-index.html'">⬅ Back</button></div>
+  </div>
+</body>
+</html>
